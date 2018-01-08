@@ -1,33 +1,35 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux-immutable';
+import { fromJS } from 'immutable';
 
 import { RECEIVE_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART } from '../actions';
+
 
 /*
   object of products by ids
 */
-const byIds = (state = {}, action) => {
+const initialState = fromJS({});
+const byIds = (state = initialState, action) => {
   switch (action.type) {
     case RECEIVE_PRODUCTS: {
-      return action.products.reduce((obj, item) => {
+      const byIds = action.products.reduce((obj, item) => {
         obj[item.id] = item;
         return obj;
       }, {});
+      return state.merge(byIds);
     }
 
     case ADD_TO_CART: {
-      const { id } = action;
-      return {
-        ...state,
-        [id]: { ...state[id], inventory: state[id].inventory - 1 }
-      };
+      const id = action.id.toString();
+      const inventory = state.getIn([id, 'inventory']);
+
+      return state.setIn([id, 'inventory'], inventory - 1);
     }
 
     case REMOVE_FROM_CART: {
-      const { id  } = action;
-      return {
-        ...state,
-        [id]: { ...state[id], inventory: state[id].inventory + 1 }
-      };
+      const id = action.id.toString();
+      const inventory = state.getIn([id, 'inventory']);
+
+      return state.setIn([id, 'inventory'], inventory + 1);
     }
 
     default:
@@ -35,8 +37,8 @@ const byIds = (state = {}, action) => {
   }
 }
 
-const products = combineReducers({
+const productsReducer = combineReducers({
   byIds
 });
 
-export default products;
+export default productsReducer;

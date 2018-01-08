@@ -37,7 +37,7 @@ Hello.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    helloMsg: state.helloMsg
+    helloMsg: state.getIn(['helloReducer', 'msg'])
   };
 };
 

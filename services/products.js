@@ -4,5 +4,4 @@ const products = [
   {"id": 3, "title": "Charli XCX - Sucker CD", "price": 19.99, "inventory": 5}
 ]
 
-
 export default products;

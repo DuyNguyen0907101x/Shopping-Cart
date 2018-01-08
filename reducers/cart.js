@@ -1,4 +1,5 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux-immutable';
+import { fromJS } from 'immutable';
 
 import {
   ADD_TO_CART, REMOVE_FROM_CART, CHECKOUT , CHECKOUT_SUCCESS, CHECKOUT_FAILURE
@@ -7,24 +8,24 @@ import {
 /*
   object of product quantity by Ids in cartItems
 */
-const quantityByIds = (state = {}, action) => {
+const initialState = fromJS({});
+const quantityByIds = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TO_CART: {
-      const { id } = action;
-      return { ...state, [id]: (state[id] || 0) + 1 }
+      const id = action.id.toString();
+      return state.set(id, (state.get(id) || 0) + 1)
     }
     case REMOVE_FROM_CART: {
-      const { id } = action;
-      const quantity = { ...state };
-      if (quantity[id] > 1) {
-        quantity[id]--;
+      const id = action.id.toString();
+      const quantity = state.get(id);
+      if (quantity > 1) {
+        return state.set(id, quantity - 1);
       } else {
-        delete quantity[id];
+        return state.delete(id);
       }
-      return quantity;
     }
     case CHECKOUT_SUCCESS: {
-      return {};
+      return initialState;
     }
     default:
       return state;
@@ -55,11 +56,11 @@ const checkoutError = (state = null, action) => {
   }
 }
 
-const cart = combineReducers({
+const cartReducer = combineReducers({
   quantityByIds,
   checkoutPending,
   checkoutError
 });
 
 
-export default cart;
+export default cartReducer;

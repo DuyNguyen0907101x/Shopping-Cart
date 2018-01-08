@@ -1,42 +1,43 @@
 import { createSelector } from 'reselect';
 
-export const selectCart = (state) => state.cart;
+export const selectCart = (state) => state.get('cartReducer');
 
-export const selectProducts = (state) => state.products;
+export const selectProducts = (state) => state.get('productsReducer');
 
 export const getProducts = createSelector(
   [ selectProducts ],
   (products) => {
-    const { byIds } = products;
-    return Object.keys(byIds).map(id => {
-      return byIds[id];
-    })
+    return products
+      .get('byIds')
+      .keySeq()
+      .toArray()
+      .map(id => products.getIn(['byIds', id]).toJS());
   }
 );
 
 export const getCartProducts = createSelector(
   [ selectProducts, selectCart ],
   (products, cart) => {
-    const { byIds } = products;
-    const { quantityByIds } = cart;
-    // console.log('recalculate cart')
-    return Object.keys(quantityByIds).map(id => {
-      return {
-        ...byIds[id],
-        quantity: quantityByIds[id]
-      }
-    });
+    return cart
+      .get('quantityByIds')
+      .keySeq()
+      .toArray()
+      .map(id => products
+        .getIn(['byIds', id])
+        .merge({ quantity: cart.getIn(['quantityByIds', id]) })
+        .toJS()
+      );
   }
 );
 
 export const getCheckoutPending = createSelector(
   [ selectCart ],
-  (cart) => cart.checkoutPending
+  (cart) => cart.get('checkoutPending')
 );
 
 export const getCheckoutError = createSelector(
   [ selectCart ],
-  (cart) => cart.checkoutError
+  (cart) => cart.get('checkoutError')
 );
 
 
@@ -45,9 +46,16 @@ export const getTotal = createSelector(
   (products, cart) => {
     const { byIds } = products;
     const { quantityByIds } = cart;
-    return Object
-      .keys(quantityByIds)
-      .reduce((total, id) => total + byIds[id].price * quantityByIds[id], 0)
-      .toFixed(2);
+
+    return cart
+      .get('quantityByIds')
+      .keySeq()
+      .toArray()
+      .reduce((total, id) => {
+        const price = products.getIn(['byIds', id, 'price']);
+        const quantity = cart.getIn(['quantityByIds', id])
+        return total + price * quantity;
+      }, 0)
+      .toFixed(2)
   }
 );

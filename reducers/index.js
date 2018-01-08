@@ -1,12 +1,12 @@
-import { combineReducers } from 'redux';
-import products from './products';
-import cart from './cart';
-import helloMsg from './helloMsg';
+import { combineReducers } from 'redux-immutable';
+import productsReducer from './products';
+import cartReducer from './cart';
+import helloReducer from './hello';
 
 const rootReducer = combineReducers({
-  products,
-  cart,
-  helloMsg
+  productsReducer,
+  cartReducer,
+  helloReducer
 });
 
 export default rootReducer;
