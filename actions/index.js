@@ -5,6 +5,12 @@ export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 export const CHECKOUT = 'CHECKOUT';
 export const CHECKOUT_SUCCESS = 'CHECKOUT_SUCCESS';
 export const CHECKOUT_FAILURE = 'CHECKOUT_FAILURE';
+export const SAY_HELLO = 'SAY_HELLO';
+
+export const sayHello = (msg) => ({
+  type: SAY_HELLO,
+  msg
+});
 
 
 export const getAllProducts = () => ({

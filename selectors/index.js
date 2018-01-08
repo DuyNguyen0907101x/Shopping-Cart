@@ -19,6 +19,7 @@ export const getCartProducts = createSelector(
   (products, cart) => {
     const { byIds } = products;
     const { quantityByIds } = cart;
+    // console.log('recalculate cart')
     return Object.keys(quantityByIds).map(id => {
       return {
         ...byIds[id],

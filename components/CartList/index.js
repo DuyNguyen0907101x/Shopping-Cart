@@ -57,6 +57,19 @@ const mapStateToProps = (state) => {
   };
 };
 
+// const mapStateToProps = (state) => {
+//   const { byIds } = state.products;
+//   const { quantityByIds } = state.cart;
+//   return {
+//     cartItems: Object.keys(quantityByIds).map(id => {
+//       return {
+//         ...byIds[id],
+//         quantity: quantityByIds[id]
+//       }
+//     })
+//   };
+// };
+
 const mapDispatchToProps = (dispatch) => {
   return {
     onRemoveFromCart: function(id) {
