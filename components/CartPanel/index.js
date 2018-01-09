@@ -3,9 +3,18 @@ import { connect } from 'react-redux';
 
 import CartList from '../CartList';
 import { checkout } from '../../actions';
-import { getTotal, getCheckoutError, getCheckoutPending } from '../../selectors';
+import {
+  selectTotal,
+  selectCheckoutError,
+  selectCheckoutPending
+} from '../../selectors';
 
-const CartPanel = ({ total, checkoutPending, checkoutError, onCheckoutClick }) => {
+const CartPanel = ({
+  total,
+  checkoutPending,
+  checkoutError,
+  onCheckoutClick
+}) => {
   const error = checkoutError
     ? (<p style={{ color: 'red' }}>{checkoutError}</p>)
     : null;
@@ -34,9 +43,9 @@ CartPanel.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    total: getTotal(state),
-    checkoutPending: getCheckoutPending(state),
-    checkoutError: getCheckoutError(state)
+    total: selectTotal(state),
+    checkoutPending: selectCheckoutPending(state),
+    checkoutError: selectCheckoutError(state)
   };
 };
 

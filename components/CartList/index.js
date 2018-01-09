@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import CartItem from '../CartItem';
 import { removeFromCart } from '../../actions';
-import { getCartProducts } from '../../selectors';
+import { selectCartProducts } from '../../selectors';
 
 class CartList extends Component {
   constructor(props) {
@@ -53,7 +53,7 @@ CartList.PropTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    cartItems: getCartProducts(state)
+    cartItems: selectCartProducts(state)
   };
 };
 

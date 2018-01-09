@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Hello from '../Hello';
+import HeroesSearch from '../HeroesSearch';
 import ProductPanel from '../ProductPanel';
 import CartPanel from '../CartPanel';
 
@@ -10,6 +11,8 @@ export default class App extends React.Component {
       <div>
         <h1>Shopping Cart Demo with React, Redux, Redux-Saga & Reselect</h1>
         <Hello />
+        <hr/>
+        <HeroesSearch />
         <hr/>
         <ProductPanel />
         <hr/>
