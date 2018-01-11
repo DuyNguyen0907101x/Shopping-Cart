@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { addToCart } from '../../actions';
-import { getProducts } from '../../selectors';
+import { selectAllProducts } from '../../selectors';
 
 import ProductItem from '../ProductItem';
 
@@ -54,7 +54,7 @@ ProductList.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    products: getProducts(state)
+    products: selectAllProducts(state)
   };
 };
 

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { getHelloMsg } from '../../selectors';
+import { selectHelloMsg } from '../../selectors';
 import { sayHello } from '../../actions';
 
 class Hello extends React.Component {
@@ -22,7 +22,7 @@ class Hello extends React.Component {
       ? (
         <p>
           Message:
-          <span style={{ color: 'green' }}>{this.props.helloMsg}</span>
+          <span style={{ color: 'green' }}>&nbsp;{this.props.helloMsg}</span>
         </p>
       )
       : null;
@@ -49,7 +49,7 @@ Hello.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    helloMsg: getHelloMsg(state)
+    helloMsg: selectHelloMsg(state)
   };
 };
 

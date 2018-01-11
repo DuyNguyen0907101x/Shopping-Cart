@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux-immutable';
 import { fromJS } from 'immutable';
 
-import { RECEIVE_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART } from '../actions';
-
+import { RECEIVE_PRODUCTS } from '../actions/products';
+import { ADD_TO_CART, REMOVE_FROM_CART } from '../actions';
 
 /*
   object of products by ids

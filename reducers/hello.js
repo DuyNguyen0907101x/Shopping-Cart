@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import { SAY_HELLO } from '../actions';
+import { SAY_HELLO } from '../actions/hello';
 
 const initialState = fromJS({
   msg: null

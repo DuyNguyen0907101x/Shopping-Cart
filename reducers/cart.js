@@ -3,7 +3,7 @@ import { fromJS } from 'immutable';
 
 import {
   ADD_TO_CART, REMOVE_FROM_CART, CHECKOUT , CHECKOUT_SUCCESS, CHECKOUT_FAILURE
-} from '../actions';
+} from '../actions/cart';
 
 /*
   object of product quantity by Ids in cartItems
