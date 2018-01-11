@@ -1,7 +1,7 @@
 import { fork, put, call, all, takeEvery, select } from 'redux-saga/effects';
 import { api } from '../services';
 import * as actions from '../actions';
-import { selectCart } from '../selectors';
+import { selectCartQuantityByIds } from '../selectors';
 
 export function* getAllProducts() {
   const products = yield(call(api.getAllProducts));
@@ -10,7 +10,7 @@ export function* getAllProducts() {
 
 export function* checkout() {
   try {
-    const cart = yield select(selectCart);
+    const cart = yield select(selectCartQuantityByIds);
     yield call(api.purchase, cart);
     yield put(actions.checkoutSuccess(cart));
   } catch(error) {
@@ -19,7 +19,7 @@ export function* checkout() {
 }
 
 export function* watchGetAllProducts() {
-  yield takeEvery(actions.GET_ALL_PRODUCTS, getAllProducts)
+  yield takeEvery(actions.GET_ALL_PRODUCTS, getAllProducts);
 }
 
 export function* watchCheckout() {

@@ -12,7 +12,7 @@ export const api = {
   purchase: function(cart) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        if (cart.get('quantityByIds').size <= MAX_CHECKOUT_QUANTITY) {
+        if (cart.size <= MAX_CHECKOUT_QUANTITY) {
           resolve(cart);
         } else {
           reject(`You can only purchase ${MAX_CHECKOUT_QUANTITY} types of products at maximum!`);

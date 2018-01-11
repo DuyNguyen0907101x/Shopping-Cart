@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import { getHelloMsg } from '../../selectors';
 import { sayHello } from '../../actions';
 
 class Hello extends React.Component {
@@ -18,12 +19,23 @@ class Hello extends React.Component {
 
   render() {
     const msg = this.props.helloMsg
-      ? (<p>Message: <span style={{ color: 'green' }}>{this.props.helloMsg}</span></p>)
+      ? (
+        <p>
+          Message:
+          <span style={{ color: 'green' }}>{this.props.helloMsg}</span>
+        </p>
+      )
       : null;
     return (
       <div>
-        <input type="text" value={this.state.msg} onChange={(e) => this.onChangeHelloMsg(e)}/>
-        <button onClick={() => this.props.sayHello(this.state.msg)}>Say Hello</button>
+        <input
+          type="text"
+          value={this.state.msg}
+          onChange={(e) => this.onChangeHelloMsg(e)}
+        />
+        <button
+          onClick={() => this.props.sayHello(this.state.msg)}
+        >Say Hello</button>
         {msg}
       </div>
     )
@@ -37,7 +49,7 @@ Hello.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    helloMsg: state.getIn(['helloReducer', 'msg'])
+    helloMsg: getHelloMsg(state)
   };
 };
 
