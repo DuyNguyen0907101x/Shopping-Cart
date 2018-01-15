@@ -1,5 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
+
+import { toJS } from '../../utils/HOC';
 
 import CartList from '../CartList';
 import { checkout } from '../../actions';
@@ -18,6 +22,8 @@ const CartPanel = ({
   const error = checkoutError
     ? (<p style={{ color: 'red' }}>{checkoutError}</p>)
     : null;
+
+  console.log('re-render')
 
   return (
     <div>
@@ -41,23 +47,23 @@ CartPanel.propTypes = {
   onCheckoutClick: PropTypes.func
 };
 
-const mapStateToProps = (state) => {
-  return {
-    total: selectTotal(state),
-    checkoutPending: selectCheckoutPending(state),
-    checkoutError: selectCheckoutError(state)
-  };
-};
+const mapStateToProps = createStructuredSelector({
+  total: selectTotal(),
+  checkoutPending: selectCheckoutPending(),
+  checkoutError: selectCheckoutError()
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onCheckoutClick: function() {
-      dispatch(checkout());
-    }
-  };
-}
+const mapDispatchToProps = (dispatch) => ({
+  onCheckoutClick: function() {
+    dispatch(checkout());
+  }
+});
 
-export default connect(
+const withConnect = connect(
   mapStateToProps,
   mapDispatchToProps
-)(CartPanel);
+);
+
+const ComponentWithJSProps = toJS(CartPanel);
+
+export default compose(withConnect)(ComponentWithJSProps);

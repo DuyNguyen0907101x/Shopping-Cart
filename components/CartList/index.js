@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 
+import { toJS } from '../../utils/HOC';
 import CartItem from '../CartItem';
 import { removeFromCart } from '../../actions';
 import { selectCartProducts } from '../../selectors';
@@ -51,21 +54,23 @@ CartList.PropTypes = {
   onRemoveFromCart: PropTypes.func
 };
 
-const mapStateToProps = (state) => {
-  return {
-    cartItems: selectCartProducts(state)
-  };
-};
+const mapStateToProps = createStructuredSelector({
+  cartItems: selectCartProducts()
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onRemoveFromCart: function(id) {
-      dispatch(removeFromCart(id));
-    }
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  onRemoveFromCart: function(id) {
+    dispatch(removeFromCart(id));
+  }
+});
 
-export default connect(
+const withConnect = connect(
   mapStateToProps,
   mapDispatchToProps
-)(CartList);
+);
+
+const ComponentWithJSProps = toJS(CartList);
+
+export default compose(
+  withConnect
+)(ComponentWithJSProps);

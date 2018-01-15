@@ -4,52 +4,38 @@ import { selectProductsByIds } from './products';
 
 export const selectCart = (state) => state.get('cartReducer');
 
-export const selectQuantityByIds = createSelector(
+export const selectQuantityByIds = (state) => state
+  .getIn(['cartReducer', 'quantityByIds']);
+
+export const selectCheckoutPending = () => createSelector(
   selectCart,
-  cart => cart.get('quantityByIds')
+  cart => cart.get('checkoutPending')
 );
 
-export const selectCheckoutPending = createSelector(
-  selectCart,
-  cart => cart.get('getCheckoutPending')
-);
-
-export const selectCheckoutError = createSelector(
+export const selectCheckoutError = () => createSelector(
   selectCart,
   cart => cart.get('checkoutError')
 );
 
-export const selectCartProducts = createSelector(
+export const selectCartProducts = () => createSelector(
   [ selectProductsByIds, selectQuantityByIds ],
   (byIds, quantityByIds) => quantityByIds
     .keySeq()
-    .toArray()
+    .toList()
     .map(id => byIds
       .get(id)
       .merge({ quantity: quantityByIds.get(id) })
-      .toJS()
     )
 );
 
-// export const getCheckoutPending = createSelector(
-//   [ selectCheckoutPending ],
-//   (checkoutPending) => checkoutPending
-// );
-
-// export const getCheckoutError = createSelector(
-//   [ selectCheckoutError ],
-//   (checkoutError) => checkoutError
-// );
-
-export const selectTotal = createSelector(
+export const selectTotal = () => createSelector(
   [ selectProductsByIds, selectQuantityByIds ],
   (byIds, quantityByIds) => quantityByIds
     .keySeq()
-    .toArray()
     .reduce((total, id) => {
       const price = byIds.getIn([id, 'price']);
-      const quantity = quantityByIds.get(id)
-      return total + price * quantity;
+      const quantity = quantityByIds.get(id);
+      return total + price * quantity
     }, 0)
     .toFixed(2)
 );
